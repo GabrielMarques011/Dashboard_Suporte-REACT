@@ -5,17 +5,17 @@ interface LoginProps {
 }
 
 export default function Login({ onLogin }: LoginProps) {
-  const [email, setEmail] = useState('');
+  const [user, setUser] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
 
   const handleLogin = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     // Lógica de autenticação: Substitua por sua lógica real (chamada de API, etc.)
-    if (email === 'admin@gmail.com' && senha === '123456') {
+    if (user === 'marques' && senha === '123456') {
       onLogin(); // Chama a função onLogin passada via props se a autenticação for bem-sucedida
     } else {
-      setErro('E-mail ou senha inválidos'); // Exibe mensagem de erro
+      setErro('Usuario ou senha inválidos'); // Exibe mensagem de erro
     }
   };
 
@@ -93,14 +93,14 @@ export default function Login({ onLogin }: LoginProps) {
                   fontSize: '14px',
                   fontWeight: '600'
                 }}>
-                  E-mail
+                  User
                 </label>
                 <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  type="user"
+                  value={user}
+                  onChange={(e) => setUser(e.target.value)}
                   required
-                  placeholder="seu@email.com"
+                  placeholder="Digite o seu usuario"
                   style={{
                     width: '100%',
                     padding: '0.75rem 1rem',

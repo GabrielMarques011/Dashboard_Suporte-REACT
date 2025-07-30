@@ -1,3 +1,26 @@
+// Tipo para dados de clientes (usado em Retenções e Upgrades)
+type ClientItem = {
+  name: string;
+  value?: number; // Valor do contrato/upgrade
+  date?: string;  // Data da retenção/upgrade
+  status?: 'concluído' | 'em_andamento' | 'pendente';
+};
+
+// Tipo que corresponde ao seu App
+type SolvedItem = {
+  name: string;
+  count: number;
+};
+
+type Stat = {
+  title: string;
+  value: number;
+  trend: string;
+  icon: 'check' | 'star' | 'arrow-up' | 'chat';
+  type: 'success' | 'info' | 'warning';
+  solvedItems?: SolvedItem[]; // Lista opcional para casos solucionados
+  clientItems?: ClientItem[]; // Lista opcional para clientes (retenções/upgrades)
+};
 
 // Componente para retornar o ícone correto baseado no nome
 function StatIcon({ name }: { name: string }) {
@@ -36,14 +59,22 @@ function StatIcon({ name }: { name: string }) {
   }
 }
 
-export default function StatsGrid() {
-  const stats = [
+export default function StatsGrid({ onStatClick }: { onStatClick: (stat: Stat) => void }) {
+  const stats: Stat[] = [
     {
       title: 'Casos Solucionados',
       value: 128,
       trend: '+12% em relação ao mês anterior',
       icon: 'check',
       type: 'success',
+      solvedItems: [
+        { name: 'Lentidão no sistema', count: 45 },
+        { name: 'Sem conexão com internet', count: 32 },
+        { name: 'Erro de login', count: 28 },
+        { name: 'Falha no pagamento', count: 15 },
+        { name: 'Bug na interface', count: 12 },
+        { name: 'Problema de sincronização', count: 10 },
+      ]
     },
     {
       title: 'Retenções',
@@ -51,6 +82,14 @@ export default function StatsGrid() {
       trend: '+5% em relação ao mês anterior',
       icon: 'star',
       type: 'info',
+      clientItems: [
+        { name: 'João Silva', value: 2500, date: '15/01/2025', status: 'concluído' },
+        { name: 'Maria Santos', value: 1800, date: '18/01/2025', status: 'concluído' },
+        { name: 'Pedro Costa', value: 3200, date: '20/01/2025', status: 'em_andamento' },
+        { name: 'Ana Oliveira', value: 1500, date: '22/01/2025', status: 'pendente' },
+        { name: 'Carlos Mendes', value: 2800, date: '25/01/2025', status: 'concluído' },
+        { name: 'Luciana Rocha', value: 2100, date: '28/01/2025', status: 'em_andamento' },
+      ]
     },
     {
       title: 'Upgrades',
@@ -58,6 +97,13 @@ export default function StatsGrid() {
       trend: '-3% em relação ao mês anterior',
       icon: 'arrow-up',
       type: 'warning',
+      clientItems: [
+        { name: 'TechCorp Ltda', value: 5000, date: '10/01/2025', status: 'concluído' },
+        { name: 'Inovação Digital', value: 7500, date: '14/01/2025', status: 'concluído' },
+        { name: 'StartUp Solutions', value: 3500, date: '19/01/2025', status: 'em_andamento' },
+        { name: 'Global Systems', value: 12000, date: '23/01/2025', status: 'pendente' },
+        { name: 'Future Tech', value: 4200, date: '26/01/2025', status: 'concluído' },
+      ]
     },
     {
       title: 'BLIP Atendidos',
@@ -71,7 +117,14 @@ export default function StatsGrid() {
   return (
     <div className="stats-grid">
       {stats.map((stat, index) => (
-        <div key={index} className={`stat-card ${stat.type}`}>
+        <div
+          key={index}
+          className={`stat-card ${stat.type}`}
+          onClick={() => {
+            console.log('Clicou no stat:', stat);
+            onStatClick(stat);
+          }}
+        >
           <div className="stat-header">
             <div className="stat-title">{stat.title}</div>
             <div className={`stat-icon ${stat.type}`}>

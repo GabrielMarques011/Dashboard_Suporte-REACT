@@ -356,6 +356,8 @@ body {
     cursor: pointer;
     position: relative;
     overflow: hidden;
+
+    pointer-events: auto; /* deve permitir clique */
 }
 
 .stat-card::before {
@@ -732,42 +734,4 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--text-muted);
-}
-
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999; /* Fica acima de tudo */
-}
-
-.modal.hidden {
-  display: none;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px 30px;
-  border-radius: 8px;
-  max-width: 500px;
-  width: 90%;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-  text-align: center;
-  position: relative;
-}
-
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 22px;
-  font-weight: bold;
-  color: #333;
-  cursor: pointer;
 }

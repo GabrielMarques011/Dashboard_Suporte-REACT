@@ -9,8 +9,29 @@ import Login from './components/Login';
 
 import { useEffect, useState } from 'react';
 
+// ✅ Tipo de estatística (você pode mover isso para um arquivo types.ts depois)
+type Stat = {
+  title: string;
+  value: number;
+  trend: string;
+  icon: 'check' | 'star' | 'arrow-up' | 'chat';
+  type: 'success' | 'info' | 'warning';
+};
+
 function App() {
   const [autenticado, setAutenticado] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalData, setModalData] = useState<Stat | null>(null);
+
+  const openModal = (stat: Stat) => {
+    setModalData(stat);
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    setModalData(null);
+  };
 
   useEffect(() => {
     const toggleButton = document.getElementById('mobileToggle');
@@ -57,14 +78,17 @@ function App() {
         <main className="main-content">
           <Header />
           <div className="dashboard-content">
-            <StatsGrid />
+            <StatsGrid onStatClick={openModal} />
             <ChartsGrid />
             <PerformanceSection />
           </div>
         </main>
       </div>
 
-      <Modal />
+      {/* ✅ Modal */}
+      {modalVisible && modalData && (
+        <Modal visible={modalVisible} data={modalData} onClose={closeModal} />
+      )}
     </>
   );
 }
